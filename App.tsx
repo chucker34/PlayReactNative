@@ -1,14 +1,38 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import TodoList from './src/TodoList';
+import ITodo from './src/interfaces/ITodo';
 
-export default class App extends React.Component<{}> {
+interface State {
+  todos: ITodo[]
+}
+
+const defaultProps: ITodo[] = [
+  {
+    id: 1,
+    title: "Hello, React!",
+    desc: "React始めました",
+    status: false
+  },
+  {
+    id: 2,
+    title: "Hello, Redux!",
+    desc: "Reduxも始めました",
+    status: false
+  },
+]
+
+export default class App extends React.Component<ITodo[], State> {
+  constructor(props: ITodo[]) {
+    super(props);
+    this.state = {
+      todos: defaultProps
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.ts to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+        <TodoList todos={this.state.todos} />
     );
   }
 }
