@@ -32,7 +32,9 @@ export default class App extends React.Component<ITodo[], State> {
 
   render() {
     return (
+      <View style={styles.container}>
         <TodoList todos={this.state.todos} />
+      </View>
     );
   }
 }
