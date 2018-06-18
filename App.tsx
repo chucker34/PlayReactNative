@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { View, Header, Container, Body, Title } from 'native-base'
 import TodoList from './src/TodoList';
 import ITodo from './src/interfaces/ITodo';
 
@@ -32,9 +33,16 @@ export default class App extends React.Component<ITodo[], State> {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TodoList todos={this.state.todos} />
-      </View>
+      <Container>
+        <Header>
+          <Body>
+            <Title>TODOリスト</Title>
+          </Body>
+        </Header>
+          <View style={styles.container}>
+            <TodoList todos={this.state.todos} />
+          </View>
+      </Container>
     );
   }
 }
