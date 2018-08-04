@@ -22,7 +22,7 @@ export default class Todo extends React.Component<ITodo, State> {
     return(
       <View>
         <Text>{this.props.id}：{this.props.title}</Text>
-        <Button block onPress={() => { this.showAlert(); }}>
+        <Button block onPress={() => { this.toggleButtonTest() }}>
           <Text>{link}</Text>
         </Button>
         <Text>{this.props.desc}</Text>
@@ -30,10 +30,8 @@ export default class Todo extends React.Component<ITodo, State> {
     );
   }
 
-  showAlert() {
-    this.setState(() => {
-      return { status: !this.state.status }
-    })
+  toggleButtonTest() {
+    return this.setState({ status: !this.state.status })
   }
 }
 
