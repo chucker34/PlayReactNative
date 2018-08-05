@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Container, Button, Text } from 'native-base'
-import { Actions, ActionConst, Scene, Router } from 'react-native-router-flux'
-import TodoList from './src/TodoList';
+import { StackNavigator, NavigationScreenProps } from 'react-navigation'
 import ITodo from './src/interfaces/ITodo';
+import TodoList from './src/TodoList';
+import Dummy from './src/Dummy';
 
 interface State {
   todos: ITodo[]
 }
 
-const defaultProps: ITodo[] = [
+const defaultProps = [
   {
     id: 1,
     title: "Hello, React!",
@@ -24,23 +25,8 @@ const defaultProps: ITodo[] = [
   },
 ]
 
-class Dummy extends React.Component {
-  render() {
-    return (
-      <Container>
-        <View>
-          <Text>Dummy</Text>
-          <Button onPress={Actions.main}>
-            <Text>次のページ</Text>
-          </Button>
-        </View>
-      </Container>
-    )
-  }
-}
-
-class Main extends React.Component<ITodo[], State> {
-  constructor(props: ITodo[]) {
+class Main extends React.Component<NavigationScreenProps<ITodo[]>, State> {
+  constructor(props: NavigationScreenProps<ITodo[]>) {
     super(props);
     this.state = {
       todos: defaultProps
@@ -50,13 +36,10 @@ class Main extends React.Component<ITodo[], State> {
   render() {
     return (
       <Container>
-       <View style={styles.container}>
-          <View>
-            <Button onPress={() => { Actions.reset('dummy')}}>
-              <Text>戻る</Text>
-            </Button>
-          </View>
-          <TodoList todos={this.state.todos} />
+        <View style={styles.container}>
+          <Button onPress={ () => { this.props.navigation.navigate('TodoList', this.state.todos) }}>
+            <Text>一覧を表示</Text>
+          </Button>
         </View>
       </Container>
     )
@@ -64,18 +47,29 @@ class Main extends React.Component<ITodo[], State> {
 }
 
 export default class App extends React.Component {
-
   render() {
     return (
-     <Router>
-        <Scene key="root">
-          <Scene key="dummy" initial component={Dummy} title="Dummy" />
-          <Scene key="main" component={Main} title="Main" />
-        </Scene>
-      </Router>
-    );
+      <RootStack />
+    )
   }
 }
+
+const RootStack = StackNavigator(
+  {
+    Main: {
+      screen: Main,
+    },
+    Dummy: {
+      screen: Dummy,
+    },
+    TodoList: {
+      screen: TodoList
+    }
+  },
+  {
+    initialRouteName: 'Main',
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
